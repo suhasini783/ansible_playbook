@@ -6,6 +6,17 @@
       shell: yum install java-1.8.0-openjdk -y
       become: true
       
+    - name: checking the status of the directry
+      stat: 
+        path: /tmp/gamefolder
+      register: status
+      
+    - name: deleting the directory
+      file:
+        path: /tmp/gamefolder
+        state: absent
+      when: status.stat.exists == true
+        
     - name: creating a directory
       file:
         path: /tmp/gamefolder
